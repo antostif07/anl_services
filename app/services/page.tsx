@@ -1,114 +1,121 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { FileText, CheckCircle2, Clock4, Users } from "lucide-react";
+import Link from 'next/link';
+import Image from 'next/image';
+import {
+  FileText,
+  Users,
+  Clock4,
+  ArrowRight,
+} from "lucide-react";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
-  transition: { duration: 0.5 }
+  transition: { duration: 0.5 },
 };
 
 const staggerContainer = {
   animate: {
     transition: {
-      staggerChildren: 0.1
-    }
-  }
+      staggerChildren: 0.1,
+    },
+  },
 };
 
-export default function Services() {
+interface Service {
+  title: string;
+  description: string;
+  link: string;
+  image: string;
+}
+
+export default function ServicesPage() {
+  const services: Service[] = [
+    {
+      title: "Assistance Voyage",
+      description: "Une assistance complète pour tous vos déplacements.",
+      link: "/services/assistance-voyage",
+      image: "https://images.unsplash.com/photo-1530469641172-8ac15d0a7d6a?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8dm95YWdlfGVufDB8fDB8fHwy",
+    },
+    {
+      title: "Service Traiteur",
+      description: "Des menus sur mesure pour tous vos événements.",
+      link: "/services/service-traiteur",
+      image: "https://images.unsplash.com/photo-1475610003943-f778cd2c3a6a?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8YWZyaWNhJTIwZm9vZHxlbnwwfHwwfHx8Mg%3D%3D",
+    },
+    {
+      title: "Commerce Général",
+      description: "Des solutions pour vos besoins commerciaux.",
+      link: "/services/commerce-generale",
+      image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+    },
+  ];
+
   return (
-    <div className="min-h-screen pt-20">
+    <div className="min-h-screen pt-0">
       {/* Hero Section */}
-      <section className="relative py-20 bg-primary text-white">
-        <motion.div 
-          className="max-w-7xl mx-auto px-4 text-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-        >
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Nos Services d'Assistance</h1>
-          <p className="text-xl max-w-3xl mx-auto">
-            Une expertise complète pour faciliter vos démarches de voyage et garantir l'obtention de vos visas
-          </p>
-        </motion.div>
+      <section className="relative py-12 md:py-20 bg-blue-600 text-white">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <motion.h1
+            className="text-3xl md:text-5xl font-bold mb-4 md:mb-6"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            Nos Services
+          </motion.h1>
+          <motion.p
+            className="text-lg md:text-xl max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            Découvrez l'ensemble de nos services pour vous accompagner dans vos
+            démarches.
+          </motion.p>
+        </div>
       </section>
 
-      {/* Services Détaillés */}
-      <section className="py-20">
+      {/* Services Section */}
+      <section className="py-12 md:py-20">
         <div className="max-w-7xl mx-auto px-4">
-          <motion.div 
-            className="grid md:grid-cols-2 gap-8"
+          <motion.div
+            className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8"
             variants={staggerContainer}
             initial="initial"
             whileInView="animate"
             viewport={{ once: true }}
           >
-            {[
-              {
-                icon: <FileText className="w-8 h-8 text-primary" />,
-                title: "Constitution de Dossier",
-                description: "Nous vous guidons dans la préparation de tous les documents nécessaires pour votre demande de visa.",
-                features: [
-                  "Vérification des pièces justificatives",
-                  "Aide au remplissage des formulaires",
-                  "Traduction de documents",
-                  "Organisation chronologique du dossier"
-                ]
-              },
-              {
-                icon: <Users className="w-8 h-8 text-primary" />,
-                title: "Conseil Personnalisé",
-                description: "Un accompagnement sur-mesure adapté à votre situation et à vos besoins spécifiques.",
-                features: [
-                  "Analyse de votre situation",
-                  "Recommandations personnalisées",
-                  "Stratégie de demande optimale",
-                  "Support multilingue"
-                ]
-              },
-              {
-                icon: <Clock4 className="w-8 h-8 text-primary" />,
-                title: "Suivi de Demande",
-                description: "Nous suivons l'avancement de votre dossier et vous tenons informé à chaque étape.",
-                features: [
-                  "Suivi en temps réel",
-                  "Notifications d'avancement",
-                  "Gestion des délais",
-                  "Relances si nécessaire"
-                ]
-              },
-              {
-                icon: <CheckCircle2 className="w-8 h-8 text-primary" />,
-                title: "Vérification Finale",
-                description: "Une revue complète de votre dossier avant soumission pour maximiser vos chances de succès.",
-                features: [
-                  "Double vérification",
-                  "Contrôle qualité",
-                  "Conformité aux exigences",
-                  "Validation finale"
-                ]
-              }
-            ].map((service, index) => (
+            {services.map((service, index) => (
               <motion.div
                 key={service.title}
-                className="bg-white p-8 rounded-xl shadow-sm"
+                className="flex flex-col md:flex-row items-center bg-white p-6 md:p-8 rounded-xl shadow-sm"
                 variants={fadeIn}
               >
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-6">
-                  {service.icon}
+                <div className="md:w-1/2 mb-4 md:mb-0 md:mr-8">
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    width={500} // Ajustez la largeur selon vos besoins
+                    height={300} // Ajustez la hauteur selon vos besoins
+                    className="rounded-lg object-cover h-full w-full"
+                  />
                 </div>
-                <h3 className="text-2xl font-semibold mb-4">{service.title}</h3>
-                <p className="text-gray-600 mb-6">{service.description}</p>
-                <ul className="space-y-3">
-                  {service.features.map((feature, i) => (
-                    <li key={i} className="flex items-center gap-3 text-gray-700">
-                      <CheckCircle2 className="w-5 h-5 text-primary/60" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
+                <div className="md:w-1/2">
+                  <h3 className="text-xl md:text-2xl font-semibold mb-3 md:mb-4">
+                    {service.title}
+                  </h3>
+                  <p className="text-gray-600 mb-4">{service.description}</p>
+                  <Link
+                    href={service.link}
+                    className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-800 transition-colors"
+                  >
+                    En savoir plus
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
               </motion.div>
             ))}
           </motion.div>
