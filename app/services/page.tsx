@@ -4,9 +4,6 @@ import { motion } from "framer-motion";
 import Link from 'next/link';
 import Image from 'next/image';
 import {
-  FileText,
-  Users,
-  Clock4,
   ArrowRight,
 } from "lucide-react";
 
@@ -49,23 +46,34 @@ export default function ServicesPage() {
       title: "Commerce Général",
       description: "Des solutions pour vos besoins commerciaux.",
       link: "/services/commerce-generale",
-      image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80",
+      image: "https://images.unsplash.com/photo-1579487785973-74d2ca7abdd5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8b2ZmaWNlfGVufDB8fDB8fHww%3D%3D&auto=format&fit=crop&w=2070&q=80",
     },
   ];
 
   return (
     <div className="min-h-screen pt-0">
       {/* Hero Section */}
-      <section className="relative py-12 md:py-20 bg-blue-600 text-white">
-        <div className="max-w-7xl mx-auto px-4 text-center">
-          <motion.h1
-            className="text-3xl md:text-5xl font-bold mb-4 md:mb-6"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
+      <section className="relative py-12 md:py-20 bg-blue-600 text-white overflow-hidden"> {/* Ajout de overflow-hidden */}
+        <div
+          className="absolute inset-0 z-0"
+          style={{
+            backgroundImage:
+              "url('https://images.unsplash.com/photo-1521791136064-7986c2920216?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8c2VydmljZXN8ZW58MHx8MHx8fDA%3D%3D&auto=format&fit=crop&w=2070&q=80')", // Image de fond
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        >
+          <div className="absolute inset-0 bg-black/50" /> {/* Overlay noir */}
+        </div>
+        <motion.div
+          className="max-w-7xl mx-auto px-4 text-center relative z-10"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <h1 className="text-3xl md:text-5xl font-bold mb-4 md:mb-6">
             Nos Services
-          </motion.h1>
+          </h1>
           <motion.p
             className="text-lg md:text-xl max-w-3xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
@@ -75,7 +83,7 @@ export default function ServicesPage() {
             Découvrez l'ensemble de nos services pour vous accompagner dans vos
             démarches.
           </motion.p>
-        </div>
+        </motion.div>
       </section>
 
       {/* Services Section */}

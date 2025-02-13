@@ -6,7 +6,7 @@ import Link from "next/link";
 
 export default function Urgence() {
   return (
-    <div className="min-h-screen pt-20">
+    <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative py-20 bg-destructive text-white">
         <motion.div 
@@ -24,11 +24,11 @@ export default function Urgence() {
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <a 
-              href="tel:+33123456789"
+              href="tel:+243823064789"
               className="bg-white text-destructive px-8 py-3 rounded-full font-medium hover:bg-white/90 transition-colors flex items-center gap-2"
             >
               <Phone className="w-5 h-5" />
-              +33 1 23 45 67 89
+              +243 823 064 789
             </a>
           </div>
         </motion.div>

@@ -2,11 +2,7 @@
 
 import {
   ArrowRight,
-  Plane,
-  Shield,
   Phone as Phone24,
-  MapPin,
-  Clock4,
   FileText,
   CheckCircle2,
   Users,
@@ -14,6 +10,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import Image from "next/image";
 
 const fadeIn = {
   initial: { opacity: 0, y: 20 },
@@ -38,7 +35,46 @@ const cardHover = {
   },
 };
 
+interface Destination {
+  title: string;
+  description: string;
+  items: string[];
+  flag: string;  // Ajout de la propriété pour l'URL du drapeau
+}
+
 export default function Home() {
+  const destinations: Destination[] = [
+    {
+      title: "Espace Schengen",
+      description:
+        "Constitution de dossiers pour visa Schengen et assistance complète",
+      items: [
+        "Formulaires de demande",
+        "Justificatifs nécessaires",
+        "Assurance voyage",
+      ],
+      flag: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Flag_of_Europe.svg/1200px-Flag_of_Europe.svg.png", // URL du drapeau de l'UE
+    },
+    {
+      title: "États-Unis",
+      description: "Accompagnement ESTA et visa américain",
+      items: ["Demande ESTA", "Formulaire DS-160", "Préparation entretien"],
+      flag: "https://upload.wikimedia.org/wikipedia/en/a/a4/Flag_of_the_United_States.svg", // URL du drapeau des États-Unis
+    },
+    {
+      title: "Canada",
+      description: "AVE et demandes de visa canadien",
+      items: ["Demande AVE", "Biométrie", "Documents supports"],
+      flag: "https://upload.wikimedia.org/wikipedia/en/c/cf/Flag_of_Canada.svg", // URL du drapeau du Canada
+    },
+    {
+      title: "Chine",
+      description: "Assistance visa chinois complète",
+      items: ["Lettre d'invitation", "Formulaire spécifique", "Planning détaillé"],
+      flag: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Flag_of_the_People%27s_Republic_of_China.svg", // URL du drapeau de la Chine
+    },
+  ];
+
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
@@ -127,42 +163,22 @@ export default function Home() {
             whileInView="animate"
             viewport={{ once: true }}
           >
-            {[
-              {
-                title: "Espace Schengen",
-                description:
-                  "Constitution de dossiers pour visa Schengen et assistance complète",
-                items: [
-                  "Formulaires de demande",
-                  "Justificatifs nécessaires",
-                  "Assurance voyage",
-                ],
-              },
-              {
-                title: "États-Unis",
-                description: "Accompagnement ESTA et visa américain",
-                items: ["Demande ESTA", "Formulaire DS-160", "Préparation entretien"],
-              },
-              {
-                title: "Canada",
-                description: "AVE et demandes de visa canadien",
-                items: ["Demande AVE", "Biométrie", "Documents supports"],
-              },
-              {
-                title: "Chine",
-                description: "Assistance visa chinois complète",
-                items: ["Lettre d'invitation", "Formulaire spécifique", "Planning détaillé"],
-              },
-            ].map((destination, index) => (
+            {destinations.map((destination, index) => (
               <motion.div
                 key={destination.title}
                 className="bg-gray-50 rounded-xl p-6 md:p-8 text-center"
                 variants={fadeIn}
                 whileHover={cardHover.hover}
               >
-                <div className="w-12 h-12 md:w-16 md:h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
-                  <FileText className="w-6 h-6 md:w-8 md:h-8 text-primary" />
-                </div>
+                  <div className="w-12 h-12 md:w-16 md:h-16  rounded-full flex items-center justify-center mx-auto mb-4 md:mb-6">
+                    <Image
+                        src={destination.flag}
+                        alt={`Drapeau de ${destination.title}`}
+                        width={50}
+                        height={30}
+                        className="rounded"
+                      />
+                  </div>
                 <h3 className="text-lg md:text-xl font-semibold mb-3 md:mb-4">
                   {destination.title}
                 </h3>

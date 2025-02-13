@@ -49,7 +49,7 @@ export default function About() {
             </p>
           </motion.div>
 
-          <motion.div
+          {/* <motion.div
             className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 mt-6 md:mt-12"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -92,7 +92,7 @@ export default function About() {
                 <p className="text-gray-600">{stat.label}</p>
               </motion.div>
             ))}
-          </motion.div>
+          </motion.div> */}
         </div>
       </section>
 
@@ -111,7 +111,7 @@ export default function About() {
             </p>
           </motion.div>
 
-          <motion.div
+          {/* <motion.div
             className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-8"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -155,7 +155,7 @@ export default function About() {
                 </div>
               </motion.div>
             ))}
-          </motion.div>
+          </motion.div> */}
         </div>
       </section>
     </div>
