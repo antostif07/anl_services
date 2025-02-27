@@ -2,7 +2,10 @@
 
 import { motion } from "framer-motion";
 import { Phone, Mail, MapPin, Clock, Send } from "lucide-react";
-import React from "react";
+import React, { useState, useTransition } from "react";
+import { sendEmail } from "../lib/actions";
+import {ErrorMessage, Field, Form, Formik, FormikHelpers} from 'formik';
+import * as Yup from 'yup';
 
 interface ContactItem {
   icon: React.ReactNode;
@@ -11,7 +14,51 @@ interface ContactItem {
   description: string;
 }
 
+// Schéma de validation avec Yup
+const validationSchema = Yup.object().shape({
+  nom: Yup.string().required('Le nom est obligatoire'),
+  prenom: Yup.string().required('Le prénom est obligatoire'),
+  email: Yup.string().email('Email invalide').required('L\'email est obligatoire'),
+  message: Yup.string().required('Le message est obligatoire'),
+});
+
+interface FormValues {
+  nom: string;
+  prenom: string;
+  email: string;
+  message: string;
+}
+
 export default function Contact() {
+  const [isPending, startTransition] = useTransition();
+  const [submissionMessage, setSubmissionMessage] = useState('')
+
+  const initialValues: FormValues = {
+    nom: '',
+    prenom: '',
+    email: '',
+    message: '',
+  };
+
+  const handleSubmit = async (values: FormValues, { resetForm }: FormikHelpers<FormValues>) => {
+    startTransition(async () => {
+        const formData = new FormData();
+        formData.append('nom', values.nom);
+        formData.append('prenom', values.prenom);
+        formData.append('email', values.email);
+        formData.append('message', values.message);
+
+        const result = await sendEmail(null, formData); // Appelle le Server Action
+
+        if (result) {
+            setSubmissionMessage(result.message); // Affiche le message
+            resetForm(); // Réinitialise le formulaire
+        } else {
+            setSubmissionMessage('Une erreur est survenue.');
+        }
+    });
+  };
+
   return (
     <div className="min-h-screen pt-0">
       {/* Hero Section */}
@@ -98,57 +145,76 @@ export default function Contact() {
               className="bg-white p-6 md:p-8 rounded-xl shadow-sm"
             >
               <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8">Envoyez-nous un message</h2>
-              <form className="space-y-4 md:space-y-6">
-                <div className="grid md:grid-cols-2 gap-4 md:gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
-                      Nom
-                    </label>
-                    <input
-                      type="text"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                      placeholder="Votre nom"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
-                      Prénom
-                    </label>
-                    <input
-                      type="text"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                      placeholder="Votre prénom"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                    placeholder="votre@email.com"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
-                    Message
-                  </label>
-                  <textarea
-                    rows={4}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                    placeholder="Votre message..."
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full bg-primary text-white px-4 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors flex items-center justify-center gap-2"
-                >
-                  Envoyer
-                  <Send className="w-4 h-4 md:w-5 md:h-5" />
-                </button>
-              </form>
+              <Formik
+                  initialValues={initialValues}
+                  validationSchema={validationSchema}
+                  onSubmit={handleSubmit}
+              >
+                {
+                  ({ isSubmitting }) => (
+                    <Form className="space-y-4 md:space-y-6">
+                      <div className="grid md:grid-cols-2 gap-4 md:gap-6">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
+                            Nom
+                          </label>
+                          <Field
+                            type="text"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                            placeholder="Votre nom"
+                          />
+                          <ErrorMessage name="nom" component="div" className="text-red-500 text-sm" />
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
+                            Prénom
+                          </label>
+                          <Field
+                            type="text"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                            placeholder="Votre prénom"
+                          />
+                          <ErrorMessage name="prenom" component="div" className="text-red-500 text-sm" />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
+                          Email
+                        </label>
+                        <Field
+                          type="email"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                          placeholder="votre@email.com"
+                        />
+                        <ErrorMessage name="email" component="div" className="text-red-500 text-sm" />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1 md:mb-2">
+                          Message
+                        </label>
+                        <Field
+                          rows={4} component="textarea"
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
+                          placeholder="Votre message..."
+                        />
+                      </div>
+                      <ErrorMessage name="message" component="div" className="text-red-500 text-sm" />
+                      <button
+                        type="submit" disabled={isSubmitting || isPending}
+                        className="w-full bg-primary text-white px-4 py-3 rounded-lg font-medium hover:bg-primary/90 transition-colors flex items-center justify-center gap-2"
+                      >
+                        {isPending || isSubmitting ? 'Envoi...' : 'Envoyer'}
+                        <Send className="w-4 h-4 md:w-5 md:h-5" />
+                      </button>
+                      {submissionMessage && (
+                          <p className={submissionMessage.startsWith('Erreur') ? 'text-red-500' : 'text-green-500'}>
+                              {submissionMessage}
+                          </p>
+                      )}
+                    </Form>
+                  )
+                }
+              </Formik>
             </motion.div>
           </div>
         </div>

@@ -5,6 +5,8 @@ import Image from 'next/image';
 import { ReactNode } from 'react';
 import Navbar from './ui/navbar';
 import Link from 'next/link';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -68,7 +70,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
               <h3 className="font-semibold mb-4">Contact</h3>
               <ul className="space-y-2 text-gray-400">
                 <li>+243 823 064 789</li>
-                <li>contact@anlservices.fr</li>
+                <li>contact@anl-services.fr</li>
                 <li>Kinshasa, RD Congo</li>
               </ul>
             </div>
